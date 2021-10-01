@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>quarkus-with-vue</title>
+    <script src="/webjars/vue/dist/vue.global.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <h2>Hello, {{ name }}</h2>
+    <button v-on:click="alert()">v-on:click</button>
+    <button @click="alert()">@click</button>
+    <button @click="fetch">Call REST API</button>
+    <br>
+    <div class="big" @click="print($event)" @mouseover="print('mouseover')" @mouseout="print('mouseout')">
+        <input type="text" @focus="print('focus')" @blur="print('blur')">
+    </div>
+</div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return { name: "User" }
+        },
+        methods : {
+            alert: function () {
+                alert('button was pressed');
+            },
+            print: function (message) {
+                console.log(message);
+            },
+            fetch: function() {
+                fetch('http://localhost:8080/hello').then(res => res.text()).then(text => this.name = text)
+            }
+        }
+    })
+    app.mount("#app")
+</script>
+
+</body>
+
+</html>
